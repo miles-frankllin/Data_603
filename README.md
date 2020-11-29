@@ -19,6 +19,7 @@ The United States is struggling to contain the spread of Covid-19 in large part 
 [Web Scraping Site](https://www.shutterstock.com) -
 [Mask Classification (Tree)]() -
 [Mask Classification (CNN)]() - 
+[Human Collaboration (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Human_Collaboration/Human_Collaboration.ipynb)
 
 
 # Requirements
