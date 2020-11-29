@@ -14,18 +14,27 @@ from io import BytesIO, StringIO
 import pickle
 import bson
 
-import time 
-
+import time
+# import json
+import simplejson as json
 
 test_image_url = "https://media.gettyimages.com/photos/teenager-with-afro-hair-style-picture-id1042424400?k=6&amp;m=1042424400&amp;s=612x612&amp;w=0&amp;h=E6YMIj4RFZyaOdUM8c07ef6APoqTDKTzjysNak_iOP0="
 
 user = ""
 pswd = ""
+user = "miles_franklin"
+pswd = "UMBCdata2020"
 
-client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.ihx5p.mongodb.net/<dbname>?retryWrites=true&w=majority".format(user, pswd))
-db = client["DATA_603"]
-collection = db["test_images"]
+# miles.franklin2015@gmail.com
+# client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.ihx5p.mongodb.net/<dbname>?retryWrites=true&w=majority".format(user, pswd))
+# db = client["DATA_603"]
+# collection = db["mask_images"]
 # fs = GridFS(database=db, collection=collection)
+
+# milf1@umbc.edu
+client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.x6cn9.mongodb.net/<dbname>?retryWrites=true&w=majority".format(user, pswd))
+db = client["DATA_603"]
+collection = db["test"]
 
 
 def gather_images_old(query="African American", num_pages=1):
@@ -89,9 +98,65 @@ def gather_images_old(query="African American", num_pages=1):
 				# with cv.imread(img_list[i]) as img:
 				# 	b = fs.put(img, filename="foo")
 
-def gather_images(query="African American", num_pages=1):
+def gather_images(query="African American", num_pages=1, size=200):
 	image_num = 0
 	for page in range(1,num_pages+1):
+		if page % 5 == 0:
+			print("Page number", page)
+		# url = "https://www.gettyimages.com/photos/african-american-portrait?mediatype=photography&page={}&phrase={}%20portrait&sort=mostpopular".format(page, query)
+		# url = "https://www.gettyimages.com/search/2/image?phrase={}+portrait".format(query)
+
+		img_list = get_from_shutterfly(query, page)
+
+		for i in range(len(img_list)):
+
+			image_bytes = urllib.request.urlopen(img_list[i]).read() # type = bytes
+			image = Image.open(BytesIO(image_bytes)) # type = PIL.JpegImagePlugin.JpegImageFile'
+			
+			# Resizeing to save space
+			w, h = image.size 
+			h2 = int(h*.9)
+
+			left = (1/2)*(w - h2)
+			top = 0
+			right = w - (1/2)*(w - h2)
+			bottom = h2
+
+			# Square Image
+			image_cropped = image.crop((left, top, right, bottom))
+			image_resized = image_cropped.resize((size, size))
+
+			# https://stackoverflow.com/questions/2659312/how-do-i-convert-a-numpy-array-to-and-display-an-image
+			image_np = np.array(image_resized) # Good for Sklearn
+			# Image.fromarray(image_np, 'RGB').show() # How to display images from np arr
+		
+			# How to handle np arrays in mongoDB
+			# https://stackoverflow.com/questions/6367589/saving-numpy-array-in-mongodb
+			if query == "":
+				query = "No Mask"
+			if query == "Covid Mask":
+				query = "Mask"
+
+			temp = {
+				"_id": "{}_{}".format(query, image_num).replace(" ", "_"),
+				# "photo_in_bytes": image_bytes,
+				"source_url": img_list[i],
+				"numpy_arr": bson.binary.Binary( pickle.dumps( image_np, protocol=2) ),
+				"target": query #"race": query
+			}
+
+			try:
+				db["test_{}".format(page)].insert_one(temp)
+			except:
+				db["test_{}".format(page)].find_one_and_replace({"_id": temp["_id"]}, temp)
+
+			image_num += 1
+
+def gather_images_json(query="African American", num_pages=1):
+	data = []
+	image_num = 0
+	for page in range(1,num_pages+1):
+		print("Page number", page)
 		# url = "https://www.gettyimages.com/photos/african-american-portrait?mediatype=photography&page={}&phrase={}%20portrait&sort=mostpopular".format(page, query)
 		# url = "https://www.gettyimages.com/search/2/image?phrase={}+portrait".format(query)
 
@@ -113,16 +178,20 @@ def gather_images(query="African American", num_pages=1):
 				"_id": "{}_{}".format(query, image_num).replace(" ", "_"),
 				# "photo_in_bytes": image_bytes,
 				"source_url": img_list[i],
-				"numpy_arr": bson.binary.Binary( pickle.dumps( image_np, protocol=2) ),
-				"race": query
+				"numpy_arr": image_np.tolist(), #bson.binary.Binary( pickle.dumps( image_np, protocol=2) ),
+				"target": query #"race": query
 			}
 
-			try:
-				collection.insert_one(temp)
-			except:
-				collection.find_one_and_replace({"_id": temp["_id"]}, temp)
+			# try:
+			# 	collection.insert_one(temp)
+			# except:
+			# 	collection.find_one_and_replace({"_id": temp["_id"]}, temp)
+
+			data.append(temp)
 
 			image_num += 1
+
+	return data
 
 def get_from_getty(query="African American", page_num=1):
 
@@ -148,18 +217,21 @@ def get_from_getty(query="African American", page_num=1):
 		print("Number of Images", len(img_list))
 		return img_list
 
-
+# https://www.shutterstock.com/search/wearing+mask?mreleased=true&number_of_people=1&page=2
 def get_from_shutterfly(query="African American", page_num=1):
 
 	# url = "https://www.shutterstock.com/search/{}?page={}".format(query.replace(" ", "+"), page_num)
 	url = "https://www.shutterstock.com/search/{}+portrait?&mreleased=true&number_of_people=1&exclude_keywords=group%2C+couple%2C+family%2C+married%2C+and&page={}".format(query.replace(" ", "+"), page_num)
+	if query == "":
+		# This will add mask to the list of words to exclude
+		url = "https://www.shutterstock.com/search/{}+portrait?&mreleased=true&number_of_people=1&exclude_keywords=group%2C+couple%2C+family%2C+married%2C+and%2C+mask&page={}".format(query.replace(" ", "+"), page_num)
 	img_list = []
 
 	while len(img_list) == 0:
 
 		header = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36" } 
 		r = requests.get(url, headers=header)
-		print("status_code", r.status_code)
+		# print("status_code", r.status_code)
 		# print("headers", r.headers)
 		soup = BeautifulSoup(r.text, "html.parser")
 
@@ -172,7 +244,7 @@ def get_from_shutterfly(query="African American", page_num=1):
 			# break
 			continue
 
-		print("Number of Images", len(img_list))
+		# print("Number of Images", len(img_list))
 		return img_list
 
 def test_unsplash():
@@ -253,38 +325,63 @@ def test_google():
 		image = Image.open(BytesIO(image_bytes)) # type = PIL.JpegImagePlugin.JpegImageFile'
 		image.show() 
 
-def check_db_collection(race="African American"):
+def check_db_collection(target="African American", num_pages=1):
+	if target == "":
+		target = "No Mask"
+	if target == "Covid Mask":
+		target = "Mask"
 	count = 0
-	cursor = collection.find({"race": race})
-	for document in cursor:
-		# num = document["_id"]
-		# print(num)
-		# num = num.split("_")[-1]
-		# print(num)
-		# if int(num) % 10 == 0:
-		print(document["_id"])
-		img = pickle.loads( document["numpy_arr"] )
-		Image.fromarray(img, 'RGB').show(title=document["_id"])
-		count += 1 
-		if count == 10:
-			return 
+	# cursor = collection.find({"race": race})
+	for page in range(1,num_pages+1):
+		cursor = db["images_{}".format(page)].find({"target": target})
+		for document in cursor:
+			# num = document["_id"]
+			# print(num)
+			# num = num.split("_")[-1]
+			# print(num)
+			# if int(num) % 10 == 0:
+			print(document["_id"])
+			img = pickle.loads( document["numpy_arr"] )
+			Image.fromarray(img, 'RGB').show(title=document["_id"])
+			count += 1 
+			if count == 20:
+				return
+
+def remove():
+	remove_these = ["American Indian", "Native Hawaiian"]
+	for race in remove_these:
+		db["test_images"].delete_many({"target": race})
+
+	print("{} deleted from collection db['test_images'].".format(" and ".join(remove_these)))
 
 def main():
-	race_categories = ["African American", "White", "American Indian", "Asian", "Latino", "Native Hawaiian", ]
-	num_pages = 5
+	# race_categories = ["African American", "White", "American Indian", "Asian", "Latino", "Native Hawaiian"]
+	race_categories = ["African American", "White", "Asian", "Latino"]
+	
+	num_pages = 1
 
-	for race in race_categories:
-		for page in range(1, num_pages+1):
-			print("{:=^100}".format("{} pg. {}".format(race, page)))
-			gather_images(race, page)
+	#json_dict = {"data":[]}
 
-		check_db_collection(race)
+	# for race in ["Covid Mask", "African American", "White", "Asian", "Latino"]:
+	for target in ["Covid Mask", ""]:
+		print("{:=^100}".format("{}".format(target)))
 
-	# for i in range(60):
-	# 	collection.delete_one({"_id": i})	
+		start = time.time()
+		gather_images(target, num_pages, 150)
+		print("--- %s seconds ---" % round(time.time() - start, 2))
+		
+		#json_dict["data"].extend(gather_images_json(target, num_pages))
+
+		#check_db_collection(target)
+
+	# with open("test_output.json", "w") as output:
+	# 	json.dump(json_dict, output)
 
 start_time = time.time()
+
+# # collection.delete_many({})
 main()
+print(db["test_1"].count_documents({}))
 print("--- %s seconds ---" % round(time.time() - start_time, 2))
 
 	
