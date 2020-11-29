@@ -125,10 +125,9 @@ def gather_images(query="African American", num_pages=1, size=200):
 
 			temp = {
 				"_id": "{}_{}".format(query, image_num).replace(" ", "_"),
-				# "photo_in_bytes": image_bytes,
 				"source_url": img_list[i],
 				"numpy_arr": bson.binary.Binary( pickle.dumps( image_np, protocol=2) ),
-				"target": query #"race": query
+				"target": query
 			}
 
 			try:
