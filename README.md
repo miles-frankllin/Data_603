@@ -6,7 +6,7 @@
     - 11/28/2020
 
 # Goal and Overview
-The goal of this project is to develop a machine learning model to identify whether or not an individual is wearing a face mask. The data used in this model was scraped from [Shutter Stock Photos](https://www.shutterstock.com) and stored in a series of a MongoDB collections. Additionally, we were hoping to impliement our model to perform predictions on a real time camera feed, although this has been left for a Future Direction.
+The goal of this project is to develop a machine learning model to identify whether or not an individual is wearing a face mask. The data used in this model was scraped from [Shutter Stock Photos](https://www.shutterstock.com) and stored in a series of a MongoDB collections. Additionally, we were hoping to implement our model to perform predictions on a real time camera feed, although this has been left for a Future Direction.
 
 # Motivation
 This initial motivation of this project was to scrape Google Images for portraits by race, with the goal of creating a machine learning model that would be able to identify the race of an individual with a fair degree of accuracy. We quickly realized that their were several factors that we did not initially take into consideration, namely, the required, and transitioned from a multi-classification problem, to the binary classification presented here.
