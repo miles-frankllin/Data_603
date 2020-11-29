@@ -16,10 +16,9 @@ The United States is struggling to contain the spread of Covid-19 in large part 
 
 # Navigation
 [Web Scraping File]() -
-[Web Scraping Site]() -
-[Race Classification]() -
+[Web Scraping Site](https://www.shutterstock.com) -
 [Mask Classification (Tree)]() -
-[Mask Classification (CNN)]()
+[Mask Classification (CNN)]() - 
 
 
 # Requirements
@@ -48,11 +47,11 @@ Concerns       : N/A
 - Move Notebooks into Google Colab to make use of servers with available GPU’s
     - GPU’s are designed to process image data and can greatly improve runtime
 - Import larger datasets to train on
-    - 12,000 image dataset of faces with and without masks (Kaggle)
-    - 5,00 image dataset of faces without masks (Kaggle) 
+    - 12,000 image dataset of faces with and without masks ([Kaggle](https://www.kaggle.com/ashishjangra27/face-mask-12k-images-dataset))
+    - 5,00 image dataset of faces without masks ([Kaggle](https://www.kaggle.com/jeffheaton/glasses-or-no-glasses)) 
 - Transfer Learning: Find a similar project to build on top of rather than building from scratch
 - Learn to use real time camera feed for model deployment
 - Improve upon web scraping techniques
     - Google Images
     - Webdrivers (Selenium)
-- Need a better understanding of  Neural Network layers, so that we can design a meaningful architecture of our own
+- Need a better understanding of Neural Network layers, so that we can design a meaningful architecture of our own
