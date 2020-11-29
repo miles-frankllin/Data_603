@@ -15,8 +15,8 @@ This initial motivation of this project was to scrape Google Images for portrait
 The United States is struggling to contain the spread of Covid-19 in large part to the debate over the need or efficacy of wearing masks. While that debate is not entertained in this project, we aimed to create a tool that could be useful in this divided environment. 
 
 # Navigation
-[Web Scraping File]() -
-[Web Scraping Site](https://www.shutterstock.com) -
+[Web Scraping File](https://github.com/miles-frankllin/Data_603/blob/main/main.py) -
+[Web Scraping Site](https://www.shutterstock.com) <br>
 [Mask Classification (Tree)]() -
 [Mask Classification (CNN)]() - 
 [Human Collaboration (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Human_Collaboration/Human_Collaboration.ipynb)
