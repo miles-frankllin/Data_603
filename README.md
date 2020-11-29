@@ -27,7 +27,7 @@ The United States is struggling to contain the spread of Covid-19 in large part 
 Languages               : Python 3.8.3
 Tools/IDE               : Anaconda
 Libraries (UI)          : IPython
-Libraries (Web Scraping): requests, bs4, time, 
+Libraries (Web Scraping): requests, bs4, time, urllib, simplejson
 Libraries (Images)      : pickle, PIL, json, pymongo, skimage, bson,
                           os, shutil, errno, io
 Libraries (ML and Other): pandas, matplotlib, numpy, scipy, sklearn,
