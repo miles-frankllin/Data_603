@@ -17,7 +17,7 @@ The United States is struggling to contain the spread of Covid-19 in large part 
 # Navigation
 [Web Scraping File](https://github.com/miles-frankllin/Data_603/blob/main/main.py) -
 [Web Scraping Site](https://www.shutterstock.com) <br>
-[Mask Classification (Tree)]() <br>
+[Mask Classification (Tree)](https://github.com/miles-frankllin/Data_603/blob/main/Image_Classification_Sklearn_Race.ipynb) <br>
 [Mask Classification (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Mask_Classification_CNN.ipynb) - 
 [Human Collaboration (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Human_Collaboration/Human_Collaboration.ipynb)
 
