@@ -29,7 +29,7 @@ Tools/IDE               : Anaconda
 Libraries (UI)          : IPython
 Libraries (Web Scraping): requests, bs4, time, 
 Libraries (Images)      : pickle, PIL, json, pymongo, skimage, bson,
-                          os, shutil, errno
+                          os, shutil, errno, io
 Libraries (ML and Other): pandas, matplotlib, numpy, scipy, sklearn,
                           random, sklearn, tensorflow, keras_preprocessing
 </pre>
