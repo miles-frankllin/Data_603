@@ -15,23 +15,20 @@ import pickle
 import bson
 
 import time
-# import json
 import simplejson as json
 
 test_image_url = "https://media.gettyimages.com/photos/teenager-with-afro-hair-style-picture-id1042424400?k=6&amp;m=1042424400&amp;s=612x612&amp;w=0&amp;h=E6YMIj4RFZyaOdUM8c07ef6APoqTDKTzjysNak_iOP0="
 
 user = ""
 pswd = ""
-user = "miles_franklin"
-pswd = "UMBCdata2020"
 
-# miles.franklin2015@gmail.com
+# Personal email
 # client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.ihx5p.mongodb.net/<dbname>?retryWrites=true&w=majority".format(user, pswd))
 # db = client["DATA_603"]
 # collection = db["mask_images"]
 # fs = GridFS(database=db, collection=collection)
 
-# milf1@umbc.edu
+# School email
 client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.x6cn9.mongodb.net/<dbname>?retryWrites=true&w=majority".format(user, pswd))
 db = client["DATA_603"]
 collection = db["test"]
@@ -84,19 +81,8 @@ def gather_images_old(query="African American", num_pages=1):
 					collection.insert_one(temp)
 				except:
 					collection.find_one_and_replace({"_id": temp["_id"]}, temp)
-					# if temp["_id"] in collection.find({"_id" : temp["_id"]}): 
-					# del doc['_id'] 
-					# collection.insert_one(temp)
 
 				image_num += 1
-
-				# fs.put(temp)
-				
-				# gridfs.grid_file.GridIn(root_collection=collection,
-				# 	_id=i, content_type=r_.headers["Content-Type"]).write(image)
-
-				# with cv.imread(img_list[i]) as img:
-				# 	b = fs.put(img, filename="foo")
 
 def gather_images(query="African American", num_pages=1, size=200):
 	image_num = 0
