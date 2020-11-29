@@ -36,8 +36,7 @@ Libraries (ML and Other): pandas, matplotlib, numpy, scipy, sklearn,
 
 
 
-# Data Sources
-## Base Site for Web Scraping
+# Data Source: Base Site for Web Scraping
 <pre>
 URL            : https://www.shutterstock.com
 Limitations    : With the techniques used, can only scrape 20 images per page,even though there are many more.
