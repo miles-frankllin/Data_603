@@ -30,7 +30,7 @@ Libraries (UI)          : IPython
 Libraries (Web Scraping): requests, bs4, time, urllib, simplejson
 Libraries (Images)      : pickle, PIL, json, pymongo, skimage, bson,
                           os, shutil, errno, io
-Libraries (ML and Other): pandas, matplotlib, numpy, scipy, sklearn,
+Libraries (ML and Other): pandas, matplotlib, seaborn, numpy, scipy, sklearn,
                           random, sklearn, tensorflow, keras_preprocessing
 </pre>
 
