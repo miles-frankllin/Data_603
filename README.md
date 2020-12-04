@@ -1,3 +1,10 @@
+# Contributers
+- Miles Franklin
+    - UMBC
+    - Data Science 603 
+    - Dr. Waleed Youssef
+    - December 2020
+    
 # Goal and Overview
 The goal of this project is to develop a machine learning model to identify whether or not an individual is wearing a face mask. The data used in this model was scraped from [Shutter Stock Photos](https://www.shutterstock.com) and stored in a series of a MongoDB collections. Additionally, we were hoping to implement our model to perform predictions on a real time camera feed, although this has been left for a Future Direction.
 
@@ -10,7 +17,7 @@ The United States is struggling to contain the spread of Covid-19 in large part 
 # Navigation
 [Web Scraping File](https://github.com/miles-frankllin/Data_603/blob/main/main.py) -
 [Web Scraping Site](https://www.shutterstock.com) <br>
-[Mask Classification (Tree)](https://github.com/miles-frankllin/Data_603/blob/main/Image_Classification_Sklearn_Race.ipynb) <br>
+[Mask Classification (Tree)](https://github.com/miles-frankllin/Data_603/blob/main/Image_Classification_Sklearn_Mask.ipynb) <br>
 [Mask Classification (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Mask_Classification_CNN.ipynb) - 
 [Human Collaboration (CNN)](https://github.com/miles-frankllin/Data_603/blob/main/Human_Collaboration/Human_Collaboration.ipynb)
 
@@ -38,9 +45,14 @@ Concerns       : N/A
 
 # Instructions
 -	Data is scraped in using [main.py](https://github.com/miles-frankllin/Data_603/blob/main/main.py)
-  - Queries and number of images can be adjusted from the main function
-  - Data is saved in MongoDB
-
+    - Queries and number of images can be adjusted from the main function
+    - Data is saved in MongoDB
+- It is recommended to use the [Human Collaboration tool](https://github.com/miles-frankllin/Data_603/blob/main/Human_Collaboration/Human_Collaboration.ipynb) to ensure that the images are labeled as intended
+- Data is then ready to be run in either model
+    - [Decision Tree Classifier](https://github.com/miles-frankllin/Data_603/blob/main/Image_Classification_Sklearn_Mask.ipynb)
+        - If you choose to not use the Human Collaboration tool, be sure to adjust your target variable 
+    - [Convolution Neural Network](https://github.com/miles-frankllin/Data_603/blob/main/Mask_Classification_CNN.ipynb)
+        - Note: Images need to be downloaded to the disk to be processed for the Convolution Neural Network
 
 # Future Directions
 - Move Notebooks into Google Colab to make use of servers with available GPU’s
