@@ -36,6 +36,11 @@ Limitations    : With the techniques used, can only scrape 20 images per page,ev
 Concerns       : N/A
 </pre>
 
+# Instructions
+-	Data is scraped in using [main.py](https://github.com/miles-frankllin/Data_603/blob/main/main.py)
+  - Queries and number of images can be adjusted from the main function
+  - Data is saved in MongoDB
+
 
 # Future Directions
 - Move Notebooks into Google Colab to make use of servers with available GPU’s
